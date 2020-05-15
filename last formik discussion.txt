@@ -1,0 +1,231 @@
+import React from "react";
+import { Formik, Field, Form, ErrorMessage, yupToFormErrors } from "formik";
+import * as Yup from "yup";
+
+class App extends React.Component {
+	render() {
+		return (
+			<Formik
+				initialValues={{
+					firstName: "",
+					middleName: "",
+					lastName: "",
+					email: "",
+					conformemail: "",
+					gender: "male",
+					jobexperience: "2012",
+					jobtitle: "",
+					companyname: "",
+					acceptTerms: false,
+				}}
+				validationSchema={Yup.object().shape({
+					firstName: Yup.string().required("First name is required"),
+					middleName: Yup.string(),
+					lastName: Yup.string().required("last name is required"),
+					email: Yup.string().required("email is required"),
+					conformemail: Yup.string()
+						.oneOf([Yup.ref("email"), null], "email must match")
+						.required("conform email  is required"),
+					gender: Yup.string().required("gender is required"),
+					jobexperience: Yup.string().required("job experience is required"),
+					jobtitle: Yup.string().required("job title is required"),
+					companyname: Yup.string().required("company name is required"),
+					acceptTerms: Yup.bool().oneOf([true], "Accept terms and condition"),
+				})}
+				onSubmit={(fields) => {
+					alert("success!!:-)\n\n" + JSON.stringify(fields, null, 4));
+				}}
+			>
+				{({ errors, status, touched, dirty, isValid, values }) => (
+					<Form>
+						<div>
+							<label>First Name</label>
+							<Field
+								name="firstName"
+								type="text"
+								className={
+									"form-control" +
+									(errors.firstName && touched.firstName ? "is-invalid" : "")
+								}
+							/>
+							<ErrorMessage
+								name="firstName"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Middle Name</label>
+							<Field
+								name="middleName"
+								type="text"
+								className={
+									"form-control" +
+									(errors.middleName && touched.middleName ? "is-invalid" : "")
+								}
+							/>
+							<ErrorMessage
+								name="middleName"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Last Name</label>
+							<Field
+								name="lastName"
+								type="text"
+								className={
+									"form-control" +
+									(errors.lastName && touched.lastName ? "is-invalid" : "")
+								}
+							/>
+							<ErrorMessage
+								name="lastName"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Email</label>
+							<Field
+								name="email"
+								type="text"
+								className={
+									"form-control" +
+									(errors.email && touched.email ? "is-invalid" : "")
+								}
+							/>
+							<ErrorMessage
+								name="email"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Conform Email</label>
+							<Field
+								name="conformemail"
+								type="text"
+								className={
+									"form-control" +
+									(errors.conformemail && touched.conformemail
+										? "is-invalid"
+										: "")
+								}
+							/>
+							<ErrorMessage
+								name="conformemail"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						{/* <div>
+							<label>Gender</label>
+							<select
+								className={
+									"form-control" +
+									(errors.gender && touched.gender ? "is-invalid" : "")
+								}
+							>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+							</select>
+							<ErrorMessage
+								name="gender"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div> */}
+						<div>
+							gender
+							<Field name="gender" as="select">
+								{/* <option values=" "></option> */}
+								<option values="male">male</option>
+								<option values="female">female</option>
+							</Field>
+							<ErrorMessage
+								name="gender"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Job experience</label>
+							<Field name="jobexperience" as="select">
+								<option value="2012">2012</option>
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+							</Field>
+
+							<ErrorMessage
+								name="jobexperience"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Job title</label>
+							<Field
+								name="jobtitle"
+								type="text"
+								className={
+									"form-control" +
+									(errors.jobtitle && touched.jobtitle ? "is-invalid" : "")
+								}
+							/>
+							<ErrorMessage
+								name="jobtitle"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<label>Company name</label>
+							<Field
+								name="companyname"
+								type="text"
+								className={
+									"form-control" +
+									(errors.companyname && touched.companyname
+										? "is-invalid"
+										: "")
+								}
+							/>
+							<ErrorMessage
+								name="companyname"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+
+						<div>
+							<label>Accept terms and conditions</label>
+							<Field
+								name="acceptTerms"
+								type="checkbox"
+								// className={
+								// 	"form-check-input" +
+								// 	(errors.acceptTerms && touched.acceptTerms
+								// 		? "is-invalid"
+								// 		: "")
+								// }
+							/>
+							<ErrorMessage
+								name="acceptTerms"
+								component="div"
+								className="invalid-feedback"
+							/>
+						</div>
+						<div>
+							<button type="submit" disabled={!isValid}>
+								submit
+							</button>
+						</div>
+					</Form>
+				)}
+			</Formik>
+		);
+	}
+}
+export default App;

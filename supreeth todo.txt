@@ -1,0 +1,80 @@
+import React, { Component } from "react";
+import "./App.css";
+import TodoList from "./Components/TodoList";
+import Inprogress from "./Components/Inprogress";
+import Done from "./Components/Done";
+class App extends Component {
+  state = {
+    userInput: "",
+    todos: [],
+    inprogress: [],
+    done: []
+  };
+  addInput = event => {
+    this.setState({ userInput: event.target.value });
+  };
+  addTodos = () => {
+    let todos = this.state.todos;
+    todos.push(this.state.userInput);
+    this.setState({
+      todos
+    });
+  };
+  
+  handleInprog=(index,name)=> {
+    let someList = this.state[name];
+    let progressList = this.state.inprogress;
+    progressList.push(someList[index]);
+    this.setState(
+      {
+        progressList: progressList,
+        [name]: someList.filter(todo => todo !== someList[index])
+      }
+      );
+    
+  }
+  handledone = (index, name) => {
+    let someList = this.state[name];
+    let doneList = this.state.done;
+    doneList.push(someList[index]);
+    this.setState({
+      doneList: doneList,
+      [name]: someList.filter(doneEl => doneEl !== someList[index])
+    });
+  }
+  handleTodo = (index, name) => {
+    
+    let someList = this.state[name];
+    let todoList = this.state.todos;
+    todoList.push(someList[index]);
+    this.setState({
+      todoList: todoList,
+      [name]: someList.filter(onedo => onedo !== someList[index])
+    });
+  }
+  
+  render() {
+    
+    return (
+      <div className="App">
+        <input className="box" type="text" onChange={this.addInput} />
+        <button className="btn" type="submit" name="ADD" onClick={this.addTodos}>
+          ADD
+        </button>
+        <TodoList
+          value={this.state.todos}
+          clickOne={this.handleInprog}
+          clickTwo={this.handledone}
+        />
+        <Inprogress value={this.state.inprogress}
+          clickOne={this.handledone}
+          clickTwo={this.handleTodo} />
+        <Done value={this.state.done}
+          clickOne={this.handleTodo}
+          clickTwo={this.handleInprog}/>
+      </div>
+    );
+  }
+}
+
+export default App;

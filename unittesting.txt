@@ -1,0 +1,27 @@
+*test driven development
+*write behind testing
+unit testing:
+Routing
+event on click
+input
+moked api
+seccess
+error case
+response data
+jest :assertion library
+enzyme:testing framework for react
+for each page we have make describe function
+
+
+describe("error page",()=>{
+it(should render on 404 error,()=>{
+expect().tove()});
+}
+it(should render on 500 error,()=>{
+expact().TOBE();
+});
+
+shallow:first level of mounting
+it keeps the 
+let obj={
+person:}

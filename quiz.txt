@@ -1,0 +1,285 @@
+addquestion.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import adding from "../actions/actioning";
+// import addingseats from "../actions/actioning";
+
+class Addquestion extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			detail: {
+				question: "",
+				option1: "",
+				option2: "",
+				option3: "",
+				option4: "",
+				answer: "",
+			},
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			detail: {
+				...this.state.detail,
+				[name]: value,
+			},
+		});
+	};
+
+	addQuestion = (e) => {
+		e.preventDefault();
+		console.log(this.props);
+		let { dispatch } = this.props;
+		dispatch(adding("ADD_QUESTION", this.state.detail));
+		this.props.history.push("/Addquestion");
+	};
+
+	render() {
+		return (
+			<form>
+				<div>
+					<div>
+						<label>
+							Add question
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="question"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							option1
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="option1"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							option2
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="option2"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							option3
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="option3"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							option4
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="option4"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Answer
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="answer"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addQuestion}
+						color="primary"
+					>
+						Add Question
+					</Button>
+				</div>
+			</form>
+		);
+	}
+}
+const mapStateToProps = (state) => {
+	console.log("sdfghj", state);
+	return {
+		questionadd: state,
+	};
+};
+export default connect(mapStateToProps)(Addquestion);
+
+
+Takequiz.js
+
+import React, { Component } from "react";
+
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import { InputLabel, MenuItem } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import { takequiz } from "../actions/actioning";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+
+class Takequiz extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			detailone: {
+				question: "",
+				option1: [],
+				option2: [],
+				option3: [],
+				option4: [],
+			},
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			detailone: {
+				...this.state.detailone,
+				[name]: value,
+			},
+		});
+	};
+	addListone = (e) => {
+		e.preventDefault();
+		// console.log(e);
+		console.log(this.state.detailone);
+		let { dispatch } = this.props;
+		dispatch(takequiz("TAKE_QUIZ", this.state.detailone));
+	};
+	// onNext = (e) => {
+	// 	{
+	// 		this.props.questionss.questions.map((c, d) => {
+	// 			return <div>{c++}</div>;
+	// 		});
+	// 	}
+	// };
+
+	render() {
+		return (
+			<div>
+				<div>
+					{this.props.questionss.questions.map((c, d) => {
+						return (
+							<div>
+								<p>{c.question}</p>
+								<FormControl component="fieldset">
+									<FormLabel component="legend">Options</FormLabel>
+									<RadioGroup
+										aria-label="gender"
+										name="gender1"
+										// value="female"
+										onChange={this.handleChange}
+									>
+										<FormControlLabel
+											control={<Radio />}
+											type="radio"
+											color="secondary"
+											name="option1"
+											value="option1"
+											onChange={this.handleChange}
+											required="true"
+											label={c.option1}
+										/>
+										<FormControlLabel
+											control={<Radio />}
+											type="radio"
+											color="secondary"
+											name="option2"
+											value="option2"
+											onChange={this.handleChange}
+											required="true"
+											label={c.option2}
+										/>
+
+										<FormControlLabel
+											control={<Radio />}
+											type="radio"
+											color="secondary"
+											name="option3"
+											value="option3"
+											onChange={this.handleChange}
+											required="true"
+											label={c.option3}
+										/>
+										<FormControlLabel
+											control={<Radio />}
+											type="radio"
+											color="secondary"
+											name="option4"
+											value="option4"
+											onChange={this.handleChange}
+											required="true"
+											label={c.option4}
+										/>
+									</RadioGroup>
+								</FormControl>
+							</div>
+						);
+					})}
+				</div>
+
+				<form>
+					<br />
+					<br />
+					<Button
+						type="button"
+						variant="contained"
+						color="primary"
+						onClick={this.addListone}
+					>
+						Submit
+					</Button>
+				</form>
+			</div>
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	console.log("asdsdadsada", state);
+	return {
+		questionss: state,
+	};
+};
+export default connect(mapStateToProps)(Takequiz);

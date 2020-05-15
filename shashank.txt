@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div>
+			<h1>The Alarm System</h1>
+
+			<button type="button" onclick="addAlaram()">Add Alaram</button>
+			<button type="button" onclick="removelist()">Clear Alaram</button>
+			<form action="/action_page.php">
+				<label for="fname">hrs</label>
+				<input type="text" id="fname" name="fname" />
+				<label for="lname">mins</label>
+				<input type="text" id="lname" name="lname" /><br /><br />
+				<label for="info">information</label>
+				<input type="text" id="info" name="info" /><br /><br />
+			</form>
+		</div>
+		<div>
+			<table id="table">
+				<tr>
+					<th>sr no</th>
+					<th>time</th>
+					<th>info</th>
+					<th>remove</th>
+				</tr>
+			</table>
+		</div>
+
+		<script>
+			let count = 0;
+			function addAlaram() {
+				var fname1 = document.getElementById("fname").value;
+				var lname1 = document.getElementById("lname").value;
+				var info1 = document.getElementById("info").value;
+				let tr = document.createElement("tr");
+				let td1 = document.createElement("td");
+				let td2 = document.createElement("td");
+				let td3 = document.createElement("td");
+				let td4 = document.createElement("td");
+				td1.textContent = count;
+				td2.textContent = `${fname1}:${lname1}`;
+				td3.textContent = info1;
+				td4.textContent = "X";
+				tr.appendChild(td1);
+				tr.appendChild(td2);
+				tr.appendChild(td3);
+				tr.appendChild(td4);
+				count++;
+				let table = document.getElementById("table");
+				table.append(tr);
+			}
+			btn.onclick = function() {
+				var remove = document.getElementById(row.id);
+				document.getElementById("table").removeChild(remove);
+			};
+			function removelist() {
+				document.getElementById("fname").value = "";
+				document.getElementById("lname").value = "";
+				document.getElementById("info").value = "";
+			}
+		</script>
+	</body>
+</html>

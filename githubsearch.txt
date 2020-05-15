@@ -1,0 +1,351 @@
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import {Provider} from "react-redux";
+import rootReducer from "./store/reducers/rootReducer";
+import {createStore,applyMiddleware} from "redux";
+import thunk from "redux-thunk";
+import {BrowserRouter as Router} from "react-router-dom";
+import * as serviceWorker from './serviceWorker';
+const store = createStore(rootReducer,applyMiddleware(thunk))
+ReactDOM.render(
+<Router>
+  <Provider store={store}>
+  <App />
+  </Provider>
+    </Router>,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
+
+
+App.js
+import React from 'react';
+import Router from "./pages/routes/Router"
+import SearchPage from "./pages/SearchPage"
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+     <Router/>
+    </div>
+  );
+}
+
+export default App;
+
+Router.js
+
+import React from 'react'
+import UserDetails from "../../pages/UserDetails"
+import { Route,Switch } from 'react-router-dom'
+import SearchPage from "../../pages/SearchPage";
+
+const  Router=(props) =>{
+    return (
+      <Switch>
+          <Route
+           exact
+           path="/"
+           component={(props) => <SearchPage {...props} />}
+         />
+           <Route
+           exact
+           path="/singleuserListData/:items"
+           component={(props) => <UserDetails {...props} />}
+         />
+      </Switch>
+    )
+}
+
+export default Router
+
+SearchPage.js
+import React, { Component } from 'react'
+import {Link,withRouter} from "react-router-dom";
+
+import {fetchSearchUsers} from '../../store/actions';
+import {AppBar,paper} from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import { connect } from 'react-redux';
+
+import  {Button, TableContainer,TableCell,TableHead,TableRow, Table, TableBody}  from '@material-ui/core'
+
+
+ class SearchPage extends Component {
+ constructor(props) {
+     super(props);
+     this.state={
+         keywoord:''
+     }
+ }
+ onHandleChange=(e)=>{
+     this.setState({
+         keyword:e.target.value
+     })
+ }
+ dataChange = ()=>{
+    this.props.dispatch(fetchSearchUsers(this.state.keyword));
+}
+render(){const {classes} = this.props
+    return (
+        <div >
+          <AppBar position="static"style={{color:"white",backgroundColor:"skyblue"}}>
+            <Toolbar>
+              <div >
+                <SearchIcon />
+                <InputBase
+                  placeholder="Search"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={this.onHandleChange}/>
+                <Button  
+                fullWidth
+                onClick={this.dataChange}
+                style={{color:"white",backgroundColor:"black"}} >Click</Button>
+              </div>
+              </Toolbar>
+          </AppBar>
+         {this.props.searchList.length<=0?(
+             ""
+         ):(
+            <TableContainer >
+            <Table style={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Names</TableCell>
+                </TableRow>
+              </TableHead>
+            <TableBody>
+{this.props.searchList.items? (
+    <>
+{this.props.searchList.items.map((item)=>(
+    <TableRow >
+    <TableCell>
+    <Link to={"/singleuserListData/"+item.login}>{item.login}</Link>
+    </TableCell>
+    </TableRow>
+))}
+    </>
+         ):<>(null)</>}
+        </TableBody> 
+              </Table>
+              </TableContainer> )} 
+          </div>
+      );}
+  
+}
+function mapStateToProps(state){
+    console.log(state);
+    return{
+        searchList: state.search,
+    }
+    
+}
+export default  withRouter(connect(mapStateToProps,null) (SearchPage))
+
+
+UserDetails.js
+import React, { Component } from 'react'
+import {Link,withRouter} from "react-router-dom";
+import {fetchUsers,fetchSearchUsers} from '../../store/actions';
+import  {Button, TableContainer,TableCell,TableHead,TableRow, Table, TableBody}  from '@material-ui/core'
+import { connect } from 'react-redux';
+export class UserDetails extends Component {
+    componentDidMount(){
+        console.log("i am tiger");
+        const userdata = this.props.searchList.items.filter((item)=>item.login===this.props.match.params.items)
+        this.props.dispatch(fetchUsers(userdata[0].repos_url))
+        console.log(userdata);
+        
+    }
+    render() {
+       console.log(this.props);
+       
+        return (
+            <TableContainer >
+            <Table style={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Git hub User</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Node Id</TableCell>
+                  <TableCell>Type of User</TableCell>
+                </TableRow>
+              </TableHead>
+            <TableBody>
+{this.props.userListdata? (
+    <>
+{this.props.userListdata.map((item)=>(
+    <TableRow >
+    <TableCell>
+     <p><img src={item.owner.avatar_url} alt="avatar" width="250px" /></p>
+    </TableCell>
+    <TableCell>
+    <p>{item.owner.login}</p>
+    </TableCell>
+    <TableCell>
+    <p>{item.owner.node_id}</p>
+    </TableCell>
+    <TableCell>
+    <p>{item.owner.type}</p>
+    </TableCell>
+    </TableRow>
+   
+))}
+    </>
+         ):<>(null)</>}
+        </TableBody> 
+              </Table>
+              </TableContainer>
+        )
+    }
+}
+function mapStateToProps(state){
+    console.log(state);
+    return{
+        userListdata: state.users,
+        searchList: state.search,
+    }
+    
+}
+export default  withRouter(connect(mapStateToProps,null) (UserDetails))
+
+actions.js
+
+import {
+    LIST_OF_USER_SUCCESS,
+    LIST_OF_REPO_SUCCESS,
+    LIST_OF_SEARCH_USER_SUCCESS,
+    LIST_OF_FAILURE
+
+} from "../constants/action-types"
+
+import axios from "axios";
+export function getListOfSearchUserSuccess(payload){
+    return {type:LIST_OF_SEARCH_USER_SUCCESS,payload:payload}
+}
+export function getListOfRepoSussess(payload){
+    return {type:LIST_OF_REPO_SUCCESS,payload:payload}
+}
+export function getListOfUSERSuccess(payload){
+    return {type:LIST_OF_USER_SUCCESS,payload:payload}
+}
+export function getListOfFailure(){
+    return {type:LIST_OF_FAILURE}
+}
+export const fetchSearchUsers = (keyword)=>{
+    return function(dispatch){
+        axios.get("https://api.github.com/search/users?q="+keyword)
+        .then((response)=>{
+            dispatch(getListOfSearchUserSuccess(response.data));
+        }).catch((error)=>{
+            dispatch(getListOfFailure());
+        })
+    }
+}
+export const fetchUsers = (url)=>{
+    return function(dispatch){
+        axios.get(url)
+        .then((response)=>{
+            dispatch(getListOfUSERSuccess(response.data));
+        }).catch((error)=>{
+            dispatch(getListOfFailure());
+        })
+    }
+}
+export const fetchRepo = ()=>{
+    return function(dispatch){
+        axios.get("https://api.github.com/repos/kentcdodds/.janus")
+        .then((response)=>{
+            dispatch(getListOfRepoSussess(response.data));
+        }).catch((error)=>{
+            dispatch(getListOfFailure());
+        })
+    }
+}
+
+
+action-types.js
+export const LIST_OF_USER_SUCCESS  = "LIST_OF_USER_SUCCESS";
+export const LIST_OF_REPO_SUCCESS = "LIST_OF_REPO_SUCCESS";
+export const LIST_OF_SEARCH_USER_SUCCESS = "LIST_OF_SEARCH_USER_SUCCESS";
+export const LIST_OF_FAILURE = "LIST_OF_FAILURE";
+
+
+rootReducer.js
+import {
+    LIST_OF_USER_SUCCESS,
+    LIST_OF_REPO_SUCCESS,
+    LIST_OF_SEARCH_USER_SUCCESS,
+    LIST_OF_FAILURE
+
+
+} from "../constants/action-types"
+const initialState =  {
+    users:[],
+    repo:[],
+    search:[],
+    error:""
+}
+const rootReducer =(state = initialState,action)=>{
+    switch (action.type){
+        case LIST_OF_SEARCH_USER_SUCCESS :{
+            return{
+
+                ...state ,search:action.payload
+            };
+
+        }
+        case LIST_OF_USER_SUCCESS :{
+            return{
+
+                ...state ,users:action.payload
+            };
+
+        }
+        case LIST_OF_REPO_SUCCESS :{
+            return{
+
+                ...state ,repo:action.payload
+            };
+
+        }
+       
+        case LIST_OF_FAILURE:{
+            return{
+                users:[],
+                search:[],
+                repo:[],
+                error:""
+            }
+        }
+        default: return state;
+        
+    }
+   
+}
+export default rootReducer;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

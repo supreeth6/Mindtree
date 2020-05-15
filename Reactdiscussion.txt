@@ -1,0 +1,125 @@
+import React, { Component } from "react";
+function Show(params) {
+	let { details } = params;
+	console.log("this is the props", params);
+	console.log("fghjp", params.name);
+	return (
+		<div>
+			{/* <tr>
+				<td>{details.name}</td>
+				<br />
+				<td>{details.address}</td>
+				<td>{details.gender}</td>
+				<td>{details.stat}</td>
+				<td>{details.coun}</td>
+			</tr> */}
+			<h3>Name:{details.name}</h3>
+			<h3>Address:{details.address}</h3>
+
+			<h3>Gender:{details.gender}</h3>
+
+			<h3>states:{details.stat}</h3>
+			<h3>country:{details.coun}</h3>
+		</div>
+	);
+}
+
+class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			details: {
+				name: "",
+				address: "",
+
+				gender: "",
+
+				stat: "",
+				coun: "",
+			},
+			flag: false,
+		};
+	}
+
+	onModelChange = (event) => {
+		//e	console.log(event.target.value);
+		let name = event.target.name;
+
+		let value = event.target.value;
+		this.setState((prevState) => ({
+			details: {
+				...prevState.details,
+				[name]: value,
+			},
+		}));
+	};
+
+	change = (e) => {
+		e.preventDefault();
+		console.log(e);
+		//this.setState({ details.flag: true });
+		this.setState({
+			name: " ",
+			address: " ",
+			gender: " ",
+			stat: " ",
+			coun: " ",
+			flag: true,
+		});
+	};
+
+	render() {
+		return (
+			<div>
+				<form>
+					Name:
+					<input type="text" name="name" onChange={this.onModelChange} />
+					<br></br>
+					Address:
+					<input type="text" name="address" onChange={this.onModelChange} />
+					<br></br>
+					Gender:
+					<input
+						onChange={this.onModelChange}
+						type="radio"
+						name="gender"
+						value="Male"
+					/>
+					Male
+					<input
+						onChange={this.onModelChange}
+						type="radio"
+						name="gender"
+						value="Female"
+					/>
+					Female <br></br>
+					states
+					<select name="stat" onChange={this.onModelChange}>
+						<option>karnataka</option>
+						<option>Goa</option>
+						<option>Kerla</option>
+						<option>Andra</option>
+					</select>
+					<br></br>
+					country
+					<select name="coun" onChange={this.onModelChange}>
+						<option>India</option>
+						<option>china</option>
+						<option>Japan</option>
+						<option>US</option>
+					</select>
+					<br></br>
+				</form>
+				<button onClick={this.change}>submit</button>
+				{this.state.flag && (
+					<div>
+						<h1>Details</h1>
+						<Show details={this.state.details} />
+					</div>
+				)}
+			</div>
+		);
+	}
+}
+
+export default App;

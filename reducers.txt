@@ -1,0 +1,37 @@
+const initialState = {
+	emp: [],
+	team: [],
+	userdata: {},
+};
+const asyncReducer = (state = initialState, action) => {
+	console.log("to updatae", state, action);
+
+	switch (action.type) {
+		case "ADD_EMPLOYEE":
+			const { employee } = action;
+			return {
+				...state,
+				emp: [...state.emp, employee],
+			};
+
+		case "MAKE_TEAMS":
+			// const { teamss } = action;
+			return {
+				...state,
+				team: [...state.team, action],
+			};
+
+		case "FETCHED_USER":
+			return Object.assign({}, state, {
+				userData: action.data,
+			});
+		// return {
+		// 	...state,
+		// 	userdata: [...state.userdata, action],
+		// };
+
+		default:
+			return state;
+	}
+};
+export default asyncReducer;

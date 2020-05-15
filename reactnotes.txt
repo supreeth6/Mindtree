@@ -1,0 +1,173 @@
+1.if we want to use this inside the function we have to use arrow functions
+2.if we use onsubmit in the form ,we can use enter or submit button to accept
+3.use prevent default to prevent the page from refreshing
+4.Small project
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+
+export default class App extends Component {
+	state = {
+		name: "Suppi",
+		age: 35
+	};
+
+	// handleClick = e => {
+	// 	// console.log(e.target);
+	// 	this.setState({
+	// 		name: "Yoshi",
+	// 		age: 25
+	// 	});
+	// 	console.log(this.state);
+	// };
+	// handleMouseOver = e => {
+	// 	console.log(e.target, e.pageX);
+	// };
+	// handleCopy = e => {
+	// 	console.log("Try being original for once");
+	// };
+	handleChange = e => {
+		this.setState({
+			name: e.target.value
+		});
+	};
+	handleSubmit = e => {
+		e.preventDefault();
+		console.log("form submitted", this.state.name);
+	};
+	render() {
+		return (
+			<div className="app-content">
+				<h1>Hey , ninjas</h1>
+				<p>
+					My name is{this.state.name} and i am {this.state.age}
+				</p>
+				<form onSubmit={this.handleSubmit}>
+					<input type="text" onChange={this.handleChange} />
+					<button>Submit</button>
+				</form>
+				{/* <button onClick={this.handleClick}>Click Me</button>
+				<button onMouseOver={this.handleMouseOver}>Hover me</button>
+				<p onCopy={this.handleCopy}>what we think ,we become</p> */}
+			</div>
+		);
+	}
+}
+
+// ReactDOM.render(<App />, document.getElementById("app"));
+5.this refers to component and props refers to object
+6.  App.js
+import React, { Component } from "react";
+import Ninjas from "./Ninjas";
+
+export default class App extends Component {
+	state = {
+		ninjas: [
+			{ name: "supraj", age: "15", belt: "green", id: 1 },
+			{ name: "supraj", age: "15", belt: "green", id: 2 },
+			{ name: "supraj", age: "15", belt: "green", id: 3 }
+		]
+	};
+	render() {
+		return (
+			<div className="APP">
+				<h1>My first react app</h1>
+				<p>Welcome</p>
+				<Ninjas ninjas={this.state.ninjas} />
+			</div>
+		);
+	}
+}
+continue  Ninjas.js
+import React, { Component } from "react";
+
+export default class Ninjas extends Component {
+	render() {
+		// console.log(this.props);
+		const { ninjas } = this.props;
+		const ninjalist = ninjas.map(ninja => {
+			return (
+				<div className="ninja" key={ninja.id}>
+					<div>Name:{ninja.name}</div>
+					<div>Age:{ninja.age}</div>
+					<div>Belt:{ninja.belt}</div>
+				</div>
+			);
+		});
+		return <div className="ninja-list">{ninjalist}</div>;
+	}
+}
+7.In functionl component we dont need render
+8.In functional component send props as parameters
+9.In functional component no need of this
+10.In functional component we cant add state
+11.Functional component mainly concentrate on ui
+12.Functional component example
+import React from "react";
+
+const Ninjas = ({ ninjas }) => {
+	// console.log(this.props);
+	// const { ninjas } = props;
+	const ninjalist = ninjas.map(ninja => {
+		return (
+			<div className="ninja" key={ninja.id}>
+				<div>Name:{ninja.name}</div>
+				<div>Age:{ninja.age}</div>
+				<div>Belt:{ninja.belt}</div>
+			</div>
+		);
+	});
+	return <div className="ninja-list">{ninjalist}</div>;
+};
+export default Ninjas;
+13.conditions(age>20) and ternary operations
+import React from "react";
+
+const Ninjas = ({ ninjas }) => {
+	// console.log(this.props);
+	// const { ninjas } = props;
+	// const ninjalist = ninjas.map(ninja => {
+	// 	if (ninja.age > 20) {
+	// 		return (
+	// 			<div className="ninja" key={ninja.id}>
+	// 				<div>Name:{ninja.name}</div>
+	// 				<div>Age:{ninja.age}</div>
+	// 				<div>Belt:{ninja.belt}</div>
+	// 			</div>
+	// 		);
+	// 	} else {
+	// 		return null;
+	// 	}
+	// });
+	const ninjalist = ninjas.map(ninja => {
+		return ninja.age > 20 ? (
+			<div className="ninja" key={ninja.id}>
+				<div>Name:{ninja.name}</div>
+				<div>Age:{ninja.age}</div>
+				<div>Belt:{ninja.belt}</div>
+			</div>
+		) : null;
+	});
+	return <div className="ninja-list">{ninjalist}</div>;
+};
+export default Ninjas;
+14. Link,navlink and a tag [link to doesnt refresh the page
+15.Higher order components=withRouter include and withRouter(function name)
+16.Home.js
+import React, { Component } from "react";
+
+const Home = () => {
+	return (
+		<div className="container">
+			<h4 className="center">Home </h4>
+			<p>Lorem etyuiop sdfghjkl xcvbnm,</p>
+		</div>
+	);
+};
+
+export default Home;
+17.Lifecycle hooks==axios
+18.switch is used to extract one of the following route
+19.async,await
+
+
+

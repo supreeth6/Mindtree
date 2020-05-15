@@ -1,0 +1,51 @@
+const book = [
+	{ title: "Daniel", author: "Robinson", price: 1500, year: 1719 },
+	{ title: "joseph", author: "heart of darkness", price: 1280, year: 1902 },
+	{ title: "pat", author: "beach", price: 950, year: 1996 }
+];
+const changetitle = book.map(e => {
+	if (e.title === "Daniel") {
+		e = { ...e, price: price + 50 };
+	}
+	return e;
+});
+console.log(changetitle);
+
+const oldest = book.reduce((acc, curr) => {
+	return (acc.year || 0) > curr.year ? acc : curr;
+}, {});
+console.log(oldest);
+
+const supreeeth = [3, 1, 3, 5, 2, 4, 4, 4];
+const unique = [...new Set(supreeeth)];
+console.log(unique);
+
+let res = book.filter(e => e.title.includes("pat"));
+console.log(res);
+let res1 = book.filter(it => new RegExp("PAT", "i").test(it.title));
+
+const admin = book.some(e => e.author === "beach");
+const nested = [
+	[1, 2, 3],
+	[4, 5, 6],
+	[7, 8, 9]
+];
+let flat = nested.reduce((acc, it) => [...acc, ...it], []);
+console.log(flat);
+
+// const count = book.reduce((acc, curr) => {
+// 	acc[curr.price] = acc[curr.price] + 1 || 1;
+// 	return acc;
+// }, {});
+// console.log(count);
+
+const nested1 = nested.map(e => {
+	return e;
+});
+console.log(nested1);
+
+const nested11 = book.map(e => {
+	delete e.title;
+	return e;
+});
+console.log(nested11);

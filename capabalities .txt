@@ -1,0 +1,19 @@
+
+webpack and entry points(bundle all the application)[create webpack,]
+design patterns in es6
+
+virtual dom in (dom manupulation in html elements)
+use of web components didnt understand
+
+atomic design]
+
+
+
+progressive web apps dont know
+git and vs
+jenkins dont know
+azure app?
+async event management?(in apis async and promises)
+eslint
+
+

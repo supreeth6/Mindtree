@@ -1,0 +1,98 @@
+Developing an app or a website typically comes down to knowing 3 main languages:
+ JavaScript,
+ CSS,
+ and HTML.
+ And while it sounds quite complicated, once you know what you are doing, 
+understanding web technology and the way it works becomes significantly easier.
+
+We present you with an introduction to web technologies and the latest web technologies list
+ hoping it will make things at least a bit easier for you.
+ Now, let’s take a look.
+
+What is Web Technology?
+You have probably heard the term “web development technologies” before,
+ but did you ever think about what it actually means?
+Since computers can’t communicate with each other the way people do,
+ they require codes instead.
+ Web technologies are the markup languages and multimedia packages computers use to communicate.
+
+1.Browsers
+Browsers request information and then they show us in the way we can understand.
+ Think of them as the interpreters of the web. 
+Here are the most popular ones:
+a)Google Chrome –
+    Currently, the most popular browser brought to you by Google
+b)Safari – 
+   Apple’s web browser
+c)Firefox – 
+   Open-source browser supported by the Mozilla Foundation
+d)Internet Explorer – 
+   Microsoft’s browser
+
+
+2. HTML & CSS
+HTML is one of the first you should learn.
+ Thanks to HTML, the web browsers know what to show once they receive the request. 
+ If you want to better understand how HTML works, you also need to know what CSS is.
+ CSS stands for Cascading Style Sheets and it describes how HTML elements are to be displayed on the screen.
+ 
+
+
+3. Web Development Frameworks
+
+a)Angular
+b)React
+c)Ruby on Rails
+d)Express.js
+e)Djando
+
+
+4. Programming Languages
+As we explained before, since computers don’t use languages that are anything like human languages,
+ they need a different way to communicate.
+ Here are some of the most popular programming languages:
+a)Javascript – used by all web browsers, Meteor, and lots of other frameworks
+b)Python – used by the Django framework as well as in the majority of mathematical calculations
+c)PHP – used by WordPress to create those WYSIWYG editors that everyone is using now.
+ It’s also used by Facebook, Wikipedia, and other major sites
+d)Java – used by Android and a lot of desktop applications.
+ 
+
+5.Protocols
+ The instructions for how to pass information back and forth between computers and devices are commonly known as protocols.
+
+a)HTTP
+ Thanks to this protocol, each website can get to the browser.
+ The protocol requests the website from Google’s server and then receives a response with the HTML, CSS, and JavaScript of the website.
+
+b)DDP
+ Uses websockets to create a consistent connection between the client and the server.
+ As a result of that, you get website updates in real-time without having to refresh the browser.
+
+c)REST
+ Used mostly for API’s, this protocol has standard methods like GET, POST, and PUT that let information be exchanged between applications.
+
+6. API
+ An API (application programming interface) allows other developers to use some of the app’s functionality without sharing the code.
+  The endpoints are exposed by the developers while the API can control access with an API key.
+ Examples of well-made APIs are those created by Facebook, Twitter, and Google for their web services.
+
+7. Data formats
+ Data is stored in the structure called a data format.
+
+ a) JSON – JavaScript Object Notation is a syntax for storing and exchanging data (just like XML).
+ It is currently becoming the most popular data format out there. 
+
+ b)XML – Predominantly used by Microsoft systems, it used to be the most popular data format 
+
+ c)CSV – is data formatted by commas; for example Excel data 
+
+8. Client (or Client-side)
+ Each user of an application is called a client.
+ Clients can be computers, mobile devices, tablets etc.
+ Usually, multiple clients are interacting with the same app stored on a server.
+
+9. Server (or Server-side)
+ The application code is usually stored on the server.
+ The clients make requests to the servers. 
+ The servers then respond to those requests after gathering the requested information.

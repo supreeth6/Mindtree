@@ -1,0 +1,279 @@
+const abc = [2, 4, 6, 7, 10, 30, 40];
+const dbtwo = abc.filter(number => number % 10 === 0);
+console.log(dbtwo);
+const mul = dbtwo.map(x => x * 10);
+console.log(mul);
+console.log(mul.reduce((a, b) => a + b));
+const objArr = [
+	{
+		name: "abc",
+		salary: 10
+	},
+	{
+		name: "ghi",
+		salary: 13
+	},
+	{
+		name: "jkl",
+		salary: 15
+	},
+	{
+		name: "pqr",
+		salary: 20
+	},
+	{
+		name: "xyz",
+		salary: 23
+	}
+];
+
+// find the people with salaries divisible by 5
+
+const result = objArr.filter(person => person.salary % 5 === 0);
+console.log(result);
+
+var values = [1, 60, 34, 30, 20, 5];
+const lessthan20 = val => {
+	return val < 20;
+};
+var valuesLessThan20 = values.filter(lessthan20);
+console.log(valuesLessThan20);
+
+const array = [1, 2, 3, 4];
+const sum = (acc, value) => {
+	return acc + value;
+};
+const product = (acc, value) => {
+	return acc * value;
+};
+const result1 = array.reduce(sum, 0);
+const result2 = array.reduce(product, 1);
+console.log(result1);
+console.log(result2);
+
+const result3 = array.reduce((acc, value) => acc + value, 0);
+const result4 = array.reduce((acc, value) => acc * value, 1);
+console.log(result3);
+console.log(result4);
+
+const arr2 = ["red", "blue", "orange"];
+const arr3 = ["green", "white", "yellow"];
+const result5 = [...arr2, ...arr3];
+console.log(result5);
+
+const printcolors = (first, second, third, ...others) => {
+	console.log(first + "," + second + "," + third + "others are" + others);
+};
+printcolors("yellow", "red", "green", "orange", "blue");
+
+const onetwo = ([a, b]) => {
+	console.log(+a + "" + b);
+};
+const twofour = ([, b, , d]) => {
+	console.log(b);
+	console.log(d);
+};
+const array7 = [1, 2, 3, 4, 5];
+onetwo(array7);
+twofour(array7);
+
+const info = ({ first, second, profession }) => {
+	console.log(first + " " + second + "-" + profession);
+};
+const person = {
+	first: "suppi",
+	second: "seeryada",
+	age: 22,
+	profession: "engineer"
+};
+info(person);
+
+const async = () => {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			const result = Math.random();
+			result > 0.5 ? resolve(result) : reject("Oppps");
+		}, 1);
+	});
+};
+for (let i = 0; i < 10; i++) {
+	async()
+		.then(result => console.log("Result is:" + result))
+		.catch(result => console.log("Error:" + result));
+}
+
+let arr = [2, 3, 4, 1];
+for (let value of arr) {
+	console.log(value);
+}
+
+let string = "javascript";
+for (let char of string) {
+	console.log(char);
+}
+
+let elements = arr => {
+	console.log(arr);
+	let sum = 0;
+	for (let element of arr) {
+	}
+};
+
+let SumElements = (...arr) => {
+	console.log(arr);
+	let sum = 0;
+	for (let element of arr) {
+		sum += element;
+	}
+	console.log(sum);
+};
+SumElements(10, 20, 30, 40, 50);
+
+const contacts = {
+	name: "upreeth",
+	familyname: "seeryada",
+	age: 22
+};
+let { name, familyname, age } = contacts;
+console.log(name);
+console.log(familyname);
+console.log(age);
+
+const myPromise = () => {
+	return new Promise((resolve, reject) => {
+		resolve("success");
+	});
+};
+console.log(myPromise());
+
+function sum1(a, b, c) {
+	console.log("sum:", a + b + c);
+}
+var args = [3, 5, 10];
+sum1(...args);
+
+let numers = [2, 3, 4, 5, 7, 8, 11, 14];
+let arr1 = [0, 1];
+let arr10 = [...arr1];
+arr1.push(...numers);
+arr10.unshift(...numers);
+console.log(...arr1);
+console.log(...arr10);
+
+let name1 = "Alexander";
+let welcome = "Hello ${name1}";
+console.log(welcome);
+
+let name2 = "Alexandr";
+
+let welcome1 = `Hello ${name2}.`;
+
+console.log("say welcome :", welcome1);
+
+let person2 = {
+	firstName: "Ada",
+	lastName: "Lovelace",
+	get greet() {
+		return `i" am" ,${this.firstName} ${this.lastName}`;
+	}
+};
+person2.getFirstName = function() {
+	console.log("first name", this.firstName);
+	return this.firstName;
+}.bind(person2);
+console.log(person2.greet);
+
+let arr4 = ["abc", "def", "ghi", "jkl"];
+for (const item of arr) {
+	console.log("god:", item);
+}
+
+let sentence = "The quick brown fox jumps over the lazydog";
+let str = "";
+for (const char of sentence) {
+	str += char;
+}
+console.log("str:", str);
+
+let initialValue = 0;
+let sum98 = [{ x: 1 }, { x: 2 }, { x: 3 }];
+let sum99 = sum98.reduce((accu, curr) => accu + curr.x, initialValue);
+console.log(sum99);
+
+let flat = [
+	[0, 1],
+	[2, 3],
+	[4, 5]
+].reduce((acc, curr) => acc.concat(curr), []);
+console.log(flat);
+
+let names = ["Alice", "Bob", "Tiff", "Bruce", "Alice"];
+let countno = names.reduce(function(allnames, name) {
+	if (name in allnames) {
+		allnames[name]++;
+	} else {
+		allnames[name] = 1;
+	}
+	return allnames;
+}, {});
+console.log(countno);
+
+let friends = [
+	{
+		name: "Anna",
+		books: ["Bible", "Harry Potter"],
+		age: 21
+	},
+	{
+		name: "Tamma",
+		books: ["War and Peace", "Romeo and Juliet"],
+		age: 26
+	},
+	{
+		name: "Alice",
+		books: ["The lord of rings"],
+		age: 18
+	}
+];
+let books = friends.reduce(
+	function(acc, curr) {
+		return [...acc, ...curr.books];
+	},
+	["Alphbet"]
+);
+console.log(books);
+
+let myArray = ["a", "b", "a", "b", "c", "d", "e"];
+let myOrder =
+	((myArray.reduce = (acc, curr) => {
+		if (acc.indexOf(curr) == -1) {
+			acc.push(curr);
+		}
+		return acc;
+	}),
+	[]);
+
+console.log(myOrder);
+
+let kvarray = [
+	{ key: 1, value: 10 },
+	{ key: 2, value: 20 },
+	{ key: 3, value: 30 }
+];
+let reformat = kvarray.map(obj => {
+	let robj = {};
+	robj[obj.key] = obj.value;
+	return robj;
+});
+console.log(reformat);
+
+let array6 = [4, 5, 0, 1, 5, 8, 3, 2, 5];
+function isPrime(num) {
+	if (num <= 1) return false;
+	else if (num == 2) return true;
+	else {
+		for (let i = 2; i < num; i++) if (num % i == 0) return false;
+		return true;
+	}
+}
+console.log(array6.filter(isPrime));

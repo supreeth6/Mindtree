@@ -1,0 +1,114 @@
+App.js
+import React, { Component } from "react";
+import Ninjas from "./Ninjas";
+import AddNinja from "./AddNinja";
+
+export default class App extends Component {
+	state = {
+		ninjas: [
+			{ name: "supraj", age: "15", belt: "green", id: 1 },
+			{ name: "supraj", age: "15", belt: "green", id: 2 },
+			{ name: "supraj", age: "100", belt: "green", id: 3 }
+		]
+	};
+	addNinja = ninja => {
+		ninja.id = Math.random();
+		let ninjas = [...this.state.ninjas, ninja];
+		this.setState({
+			ninjas: ninjas
+		});
+	};
+	deleteNinja = id => {
+		// console.log(id);
+		let ninjas = this.state.ninjas.filter(ninja => {
+			return ninja.id != id;
+		});
+		this.setState({
+			ninjas: ninjas
+		});
+	};
+	componentDidMount() {
+		console.log("component mount");
+	}
+	componentDidUpdate(prevProps, prevState) {
+		console.log("updates");
+		console.log(prevProps, prevState);
+	}
+	render() {
+		return (
+			<div className="APP">
+				<h1>My first react app</h1>
+				<p>Welcome</p>
+				<Ninjas deleteNinja={this.deleteNinja} ninjas={this.state.ninjas} />
+				<AddNinja addNinja={this.addNinja} />
+			</div>
+		);
+	}
+}
+
+Ninjas.js
+import React from "react";
+
+const Ninjas = ({ ninjas, deleteNinja }) => {
+	const ninjalist = ninjas.map(ninja => {
+		if (ninja.age > 20) {
+			return (
+				<div className="ninja" key={ninja.id}>
+					<div>Name:{ninja.name}</div>
+					<div>Age:{ninja.age}</div>
+					<div>Belt:{ninja.belt}</div>
+					<button
+						onClick={() => {
+							deleteNinja(ninja.id);
+						}}
+					>
+						Delete ninja
+					</button>
+				</div>
+			);
+		} else {
+			return null;
+		}
+	});
+	return <div className="ninja-list">{ninjalist}</div>;
+};
+export default Ninjas;
+
+
+AddNinja.js
+
+import React, { Component } from "react";
+
+export default class AddNinja extends Component {
+	state = {
+		name: "",
+		age: "",
+		belt: ""
+	};
+	handleChange = e => {
+		this.setState({
+			[e.target.id]: e.target.value
+		});
+	};
+	handlesubmit = e => {
+		e.preventDefault();
+		// console.log(this.state);
+		this.props.addNinja(this.state);
+	};
+	render() {
+		return (
+			<div>
+				<form onSubmit={this.handlesubmit}>
+					<label htmlFor="name">Name:</label>
+					<input type="text" id="name" onChange={this.handleChange} />
+					<label htmlFor="name">Age:</label>
+					<input type="text" id="age" onChange={this.handleChange} />
+					<label htmlFor="name">Belts:</label>
+					<input type="text" id="belts" onChange={this.handleChange} />
+					<button>Submit</button>
+				</form>
+			</div>
+		);
+	}
+}
+

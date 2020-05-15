@@ -1,0 +1,49 @@
+package sample;
+
+import java.util.Scanner;
+
+public class menudriven {
+	public static void main(String args[]) {
+		Scanner scan=new Scanner(System.in);
+		System.out.println("enter the choice");
+		int ch=scan.nextInt();
+		int arr[]=new int[5];
+		int result[]=new int[5];
+		char arr2[]=new char[5];
+		char arr3[]=new char[5];
+		switch(ch) {
+		case 1:
+		       System.out.println("enter the numbers in range 65 to 83");
+		       for(int i=0;i<5;i++) {
+		    	   arr[i]=scan.nextInt();
+		       if(arr[i]>65 && arr[i]<83) {
+		    	   System.out.println(arr);
+		       }
+		       }
+		  
+		        result=arr;
+		       break;
+		case 2:
+		       int n=result.length;
+			   char[]toChararr(int arr1[]);
+			   for(int i=0;i<arr1.length;i++) {
+				 char ch1=(char)(arr1[i]);
+			   }
+			   System.out.println(arr1);
+			   break;
+		case 3:int n2=arr2.length;	
+			   if(arr2.charAt('A')||arr2.charAt('E') || arr2.charAt('I')|| arr2.charAt('O')||arr2.charAt('U')) {
+			   for(int i=0;i<n2;i++) {
+				   System.out.println();
+			   }
+			   
+		   }
+		case 4:break;
+		       
+			   
+	}
+
+}
+	
+		
+	}

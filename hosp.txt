@@ -1,0 +1,795 @@
+index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import Login from "./components/Login";
+
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import rootReducer from "./reducers/combinedreducers";
+
+const store = createStore(rootReducer);
+ReactDOM.render(
+	<Provider store={store}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</Provider>,
+	document.getElementById("root")
+);
+
+app.js
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Login from "./components/Login";
+import Admin from "./components/Admin";
+import Doctor from "./components/Doctor";
+import Listdoctor from "./components/Listdoctor";
+import Protected from "./components/Protected";
+
+export default class App extends Component {
+	render() {
+		return (
+			<div>
+				<AppBar position="static">
+					<Toolbar>
+						<Typography variant="h6"> Hospital</Typography>
+					</Toolbar>
+				</AppBar>
+				<AppBar position="static" color="default">
+					<Router>
+						<ul>
+							{/* <li>
+								<Link to="/">Home </Link>
+							</li> */}
+							{/* <li>
+								<Link to="/">Login </Link>
+							</li> */}
+							<li>
+								<Link to="/Admin">Admin</Link>
+							</li>
+							<li>
+								<Link to="/Doctor">Doctor</Link>
+							</li>
+							<li>
+								<Link to="/Listdoctor">Patients list</Link>
+							</li>
+						</ul>
+						<Switch>
+							{/* <Route exact path="/" component={Login}></Route> */}
+							<Route exact path="/Admin" component={Admin}></Route>
+							<Route exact path="/Doctor" component={Doctor}></Route>
+							<Route exact path="/Listdoctor" component={Listdoctor}></Route>
+						</Switch>
+					</Router>
+				</AppBar>
+			</div>
+		);
+	}
+}
+
+admin.js
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { adding } from "../actions/addAdmins";
+import Addadmin from "../components/Addadmins";
+import Adddoctors from "./Adddoctorss";
+import Addstocks from "./Addstockss";
+
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+class Admin extends Component {
+	render() {
+		return (
+			<Router>
+				<ul>
+					<li>
+						<Link to="/Addadmin">Add Admin </Link>
+					</li>
+					<li>
+						<Link to="/Adddoctors">Add Doctors </Link>
+					</li>
+					<li>
+						<Link to="/Addstocks">Add Stocks</Link>
+					</li>
+				</ul>
+				<Switch>
+					<Route exact path="/Addadmin" component={Addadmin}></Route>
+					<Route exact path="/Adddoctors" component={Adddoctors}></Route>
+					<Route exact path="/Addstocks" component={Addstocks}></Route>
+				</Switch>
+			</Router>
+		);
+	}
+}
+
+export default Admin;
+
+
+Addadmins.js
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { adding } from "../actions/addAdmins";
+import Addadmin from "../components/Addadmins";
+import Adddoctors from "./Adddoctorss";
+import Addstocks from "./Addstockss";
+
+class Addadmins extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			detail: {
+				name: "",
+				email: "",
+				password: "",
+			},
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			detail: {
+				...this.state.detail,
+				[name]: value,
+			},
+		});
+	};
+	addList = (e) => {
+		e.preventDefault();
+		let { dispatch } = this.props;
+		dispatch(adding("ADD_ADMINS", this.state.detail));
+	};
+	render() {
+		return (
+			<form>
+				<div>
+					<div>
+						<label>
+							Admin Name
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="name"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Admin Email
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="email"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Admin Password
+							<TextField
+								id="outlined-basic"
+								type="password"
+								name="password"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addList}
+						color="primary"
+					>
+						Add Admins
+					</Button>
+				</div>
+			</form>
+		);
+	}
+}
+const mapStateToProps = (state) => {
+	console.log("sdfghj", state);
+	return {
+		admins: state,
+	};
+};
+export default connect(mapStateToProps)(Addadmins);
+
+Adddoctorss.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { addingdoctors } from "../actions/addAdmins";
+import Addadmin from "./Addadmins";
+import Adddoctors from "./Adddoctorss";
+import Addstocks from "./Addstockss";
+
+class Adddoctorss extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			detaildoctors: {
+				name: "",
+				email: "",
+				password: "",
+			},
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			detaildoctors: {
+				...this.state.detaildoctors,
+				[name]: value,
+			},
+		});
+	};
+	addList = (e) => {
+		e.preventDefault();
+		let { dispatch } = this.props;
+		dispatch(addingdoctors("ADD_DOCTORS", this.state.detaildoctors));
+	};
+	render() {
+		return (
+			<form>
+				<div>
+					<div>
+						<label>
+							Name
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="name"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Email
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="email"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Password
+							<TextField
+								id="outlined-basic"
+								type="password"
+								name="password"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addList}
+						color="primary"
+					>
+						Add Doctors
+					</Button>
+				</div>
+			</form>
+		);
+	}
+}
+const mapStateToProps = (state) => {
+	console.log("sdfghj", state);
+	return {
+		doctors: state,
+	};
+};
+export default connect(mapStateToProps)(Adddoctorss);
+
+Addstocks.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { addingstockssyringes } from "../actions/addAdmins";
+import { addingstocksmask } from "../actions/addAdmins";
+import { addingstocksgloves } from "../actions/addAdmins";
+import Addadmin from "./Addadmins";
+import Adddoctors from "./Adddoctorss";
+import Addstocks from "./Addstockss";
+
+class Addstockss extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			// detailstocks: {
+			//all updates
+			syringes: 0,
+			gloves: 0,
+			mask: 0,
+			// },
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			// detailstocks: {
+			...this.state,
+			[e.target.name]: value,
+			// },
+		});
+	};
+	addListsyringes = (e) => {
+		e.preventDefault();
+		let { dispatch } = this.props;
+		console.log(e);
+		dispatch(addingstockssyringes("UPDATE_SYRINGES", this.state.syringes));
+	};
+	addListgloves = (e) => {
+		e.preventDefault();
+		let { dispatch } = this.props;
+		dispatch(addingstocksgloves("UPDATE_GLOVES", this.state.gloves));
+	};
+	addListmask = (e) => {
+		e.preventDefault();
+		let { dispatch } = this.props;
+		dispatch(addingstocksmask("UPDATE_MASKS", this.state.mask));
+	};
+	render() {
+		return (
+			<form>
+				<div>
+					<div>
+						<label>
+							Update Syringes
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="syringes"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Update Gloves
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="gloves"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							Update Mask
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="mask"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addListsyringes}
+						color="primary"
+					>
+						Add Stocks syringes
+					</Button>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addListgloves}
+						color="primary"
+					>
+						Add Stocks gloves
+					</Button>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addListmask}
+						color="primary"
+					>
+						Add Stocks mask
+					</Button>
+				</div>
+			</form>
+		);
+	}
+}
+const mapStateToProps = (state) => {
+	console.log("sdfghj", state);
+	return {
+		stocks: state.stockreducers,
+	};
+};
+export default connect(mapStateToProps)(Addstockss);
+
+Doctor.js
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { addingone } from "../actions/addAdmins";
+
+class Doctor extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			detailone: {
+				patientname: "",
+				noofsyringesused: "",
+				noofglovesused: "",
+				noofmaskused: "",
+			},
+		};
+	}
+	handleChange = (e) => {
+		let name = e.target.name;
+		let value = e.target.value;
+		this.setState({
+			detailone: {
+				...this.state.detailone,
+				[name]: value,
+			},
+		});
+	};
+	addListone = (e) => {
+		e.preventDefault();
+		console.log(this.state.detailone);
+		let { dispatch } = this.props;
+		dispatch(addingone("ADD_USAGE", this.state.detailone));
+	};
+
+	render() {
+		return (
+			<form>
+				<div>
+					<div>
+						<label>
+							Name of Patient
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="patientname"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							No of syringes
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="noofsyringesused"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							No of gloves used
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="noofglovesused"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<div>
+						<label>
+							No of mask used
+							<TextField
+								id="outlined-basic"
+								type="text"
+								name="noofmaskused"
+								variant="outlined"
+								onChange={this.handleChange}
+							/>
+						</label>
+					</div>
+					<Button
+						type="button"
+						variant="contained"
+						onClick={this.addListone}
+						color="primary"
+					>
+						Update
+					</Button>
+				</div>
+			</form>
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	console.log("sdfghj", state);
+	return {
+		usage: state.other,
+	};
+};
+export default connect(mapStateToProps)(Doctor);
+
+Listdoctor.js
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+
+class Listdoctor extends Component {
+	render() {
+		return (
+			<TableContainer component={Paper}>
+				<Table aria-label="simple table">
+					<TableHead>
+						<TableRow>
+							<TableCell>Name of Patient</TableCell>
+							<TableCell>Name of syringes</TableCell>
+							<TableCell>Name of gloves used</TableCell>
+							<TableCell>Name of mask used</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{this.props.usage.map((use, index) => {
+							return (
+								<TableRow key={index}>
+									<TableCell>{use.patientname}</TableCell>
+									<TableCell>{use.noofsyringesused}</TableCell>
+									<TableCell>{use.noofglovesused}</TableCell>
+									<TableCell>{use.noofmaskused}</TableCell>
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		);
+	}
+}
+const mapStateToProps = (state) => {
+	console.log(state.doctorsss);
+	return {
+		usage: state.doctorsss,
+	};
+};
+export default connect(mapStateToProps)(Listdoctor);
+
+actions/addAdmins.js
+export const adding = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		admins: admins,
+	};
+};
+export const addingone = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		usage: admins,
+	};
+};
+export const addingdoctors = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		doctors: admins,
+	};
+};
+export const login = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: "LOGIN",
+		datas: admins,
+	};
+};
+export const makingAdmin = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: "MAKE_ADMIN",
+	};
+};
+export const addingstockssyringes = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		stocks: admins,
+	};
+};
+export const addingstocksgloves = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		stocks: admins,
+	};
+};
+export const addingstocksmask = (actionType, admins) => {
+	console.log(admins);
+	return {
+		type: actionType,
+		stocks: admins,
+	};
+};
+
+combinedreducers.js
+import { Reducer, stockReducer, loginReducer } from "../reducers/Reducers";
+import { combineReducers } from "redux";
+
+const rootReducer = combineReducers({
+	otherreducers: Reducer,
+	stockreducers: stockReducer,
+	//   ///cart: cartReducer,
+	userDetails: loginReducer,
+});
+export default rootReducer;
+
+
+Reducrs.js
+const initialState = {
+	hospital: [],
+	doctorsss: [],
+	addingdoctors: [],
+	// addingstocks: [],
+};
+export const Reducer = (state = initialState, action) => {
+	// console.log("to update", state, action);
+
+	switch (action.type) {
+		case "ADD_ADMINS":
+			const { admins } = action;
+			return {
+				...state,
+				hospital: [...state.hospital, admins],
+			};
+			break;
+		case "ADD_USAGE":
+			const { usage } = action;
+			return {
+				...state,
+				doctorsss: [...state.doctorsss, usage],
+			};
+			break;
+		case "ADD_DOCTORS":
+			const { doctors } = action;
+			return {
+				...state,
+				addingdoctors: [...state.addingdoctors, doctors],
+			};
+			break;
+		// case "ADD_STOCKS":
+		// 	const { stocks } = action;
+		// 	return {
+		// 		...state,
+		// 		addingstocks: [...state.addingstocks, stocks],
+		// 	};
+		// 	break;
+		default:
+			return state;
+	}
+};
+
+const initialStock = {
+	gloves: 1000,
+	syringes: 1000,
+	masks: 1000,
+};
+
+export const stockReducer = (state = initialStock, action) => {
+	console.log("supreeth", action);
+	switch (action.type) {
+		case "UPDATE_MASKS":
+			let { stocks } = action;
+			return {
+				...state,
+				masks: Number(state.masks) + Number(action.stocks),
+			};
+			break;
+
+		case "UPDATE_GLOVES":
+			let { stocksone } = action;
+			return {
+				...state,
+				gloves: Number(state.gloves) + Number(action.stocks),
+			};
+			break;
+
+		case "UPDATE_SYRINGES":
+			let { stockstwo } = action;
+			return {
+				...state,
+				syringes: Number(state.syringes) + Number(action.stocks),
+			};
+
+		case "ADD_USAGE":
+			return {
+				...state,
+				masks: Number(state.masks) - Number(action.usage.noofmaskused),
+				syringes:
+					Number(state.syringes) - Number(action.usage.noofsyringesused),
+				gloves: Number(state.gloves) - Number(action.usage.noofglovesused),
+			};
+		
+	}
+	return state;
+};
+
+export const loginReducer = (
+	state = { email: "supreeth@gmail.com", password: "supreeth", isAdmin: false },
+	action
+) => {
+	console.log(action);
+
+	// eslint-disable-next-line default-case
+	switch (action.type) {
+		case "LOGIN":
+			return {
+				...state,
+				isAdmin:
+					action.datas.email === state.email && action.datas.password
+						? (state.isAdmin = true)
+						: (state.isAdmin = false),
+			};
+		// eslint-disable-next-line no-duplicate-case
+		case "MAKE_ADMIN":
+			return {
+				...state,
+				isAdmin: (state.isAdmin = true),
+			};
+	}
+	return state;
+};
+
+
+
+
+
+
+

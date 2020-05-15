@@ -1,0 +1,13 @@
+1.First import DOM and then html files
+2.Manage files
+3.Node package manager[npm]
+4.For managing dependencies
+5.npm init[initialise]
+6.enter and yes
+7.npm install webpack --save-dev[dependencies]
+8.Go to package.json see in dependencies,, the webpack gets added
+9.Import and export
+10.npm run build
+11.steps:
+a)mkdir,cd,npm init -y[empty package of json file]to store our dependencies
+b)npm i -D[dev dependency] webpack webpack-cli

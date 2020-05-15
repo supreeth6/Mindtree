@@ -1,0 +1,401 @@
+import React, { Component } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+	MenuItem,
+	InputLabel,
+	Select,
+	FormControl,
+	Button,
+} from "@material-ui/core";
+
+// import TableBody from "@material-ui/core/TableBody";
+import TableContainer from "@material-ui/core/TableContainer";
+// import TableHead from "@material-ui/core/TableHead";
+// import TableRow from "@material-ui/core/TableRow";
+import { withStyles } from "@material-ui/core/styles";
+import {
+	addAirline,
+	reset,
+	bookedFlight,
+	updateFlight,
+	addFlight,
+	searchFlight,
+} from "../../store/action";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+const useStyles = makeStyles({
+	table: {
+		minWidth: 650,
+	},
+	dialog: {
+		minWidth: "990px",
+	},
+});
+
+class Booking extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			fromKeyword: "",
+			toKeyword: "",
+			open: false,
+			people: "",
+		};
+	}
+
+	onChangeHandler = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value,
+		});
+	};
+	onResetData = () => {
+		this.props.dispatch(reset());
+		this.setState({
+			open: false,
+		});
+	};
+	onBookingHandle = (item) => {
+		const object = {
+			...item,
+			people: this.state.people,
+		};
+		this.props.dispatch(bookedFlight(object));
+
+		const data = this.props.allSearchedFlights.filter(
+			(items) => items.flightNumber === item.flightNumber
+		);
+		this.setState({
+			fromKeyword: "",
+			toKeyword: "",
+			people: "",
+			open: true,
+		});
+	};
+
+	onSearchHandle = () => {
+		this.props.dispatch(searchFlight(this.state));
+	};
+
+	render() {
+		const { classes } = this.props;
+		let totalPrice = Number(this.props.bookedflight.cost * this.state.people);
+		let tax = (totalPrice * 18) / 100;
+		console.log(tax);
+		let newPrice = totalPrice + tax;
+		console.log(totalPrice);
+
+		return (
+			<div>
+				<h1>Book Flight </h1>
+				<FormControl
+					variant="outlined"
+					className={classes.formControl}
+					style={{ minWidth: "250px" }}
+				>
+					<InputLabel id="demo-simple-select-outlined-label">From</InputLabel>
+					<Select
+						labelId="demo-simple-select-outlined-label"
+						id="demo-simple-select-outlined"
+						label="From"
+						name="fromKeyword"
+						value={this.state.fromKeyword}
+						onChange={this.onChangeHandler}
+					>
+						{this.props.allCities.map((item, index) => {
+							return <MenuItem value={item.code}>{item.name}</MenuItem>;
+						})}
+					</Select>
+				</FormControl>
+				<br />
+				<br />
+				<FormControl
+					variant="outlined"
+					className={classes.formControl}
+					style={{ minWidth: "250px" }}
+				>
+					<InputLabel id="demo-simple-select-outlined-label">To</InputLabel>
+					<Select
+						value={this.state.toKeyword}
+						labelId="demo-simple-select-outlined-label"
+						id="demo-simple-select-outlined"
+						label="To"
+						name="toKeyword"
+						onChange={this.onChangeHandler}
+					>
+						{this.props.allCities.map((item, index) => {
+							return (
+								<MenuItem key={index} value={item.code}>
+									{item.name}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
+				<br />
+				<br />
+				<FormControl
+					variant="outlined"
+					className={classes.formControl}
+					style={{ minWidth: "250px" }}
+				>
+					<InputLabel id="demo-simple-select-outlined-label">
+						Number Of Tickets
+					</InputLabel>
+					<Select
+						labelId="demo-simple-select-outlined-label"
+						id="demo-simple-select-outlined"
+						label="Number Of Tickets"
+						name="people"
+						value={this.state.people}
+						onChange={this.onChangeHandler}
+					>
+						<MenuItem value={1}>1</MenuItem>
+						<MenuItem value={2}>2</MenuItem>
+						<MenuItem value={3}>3</MenuItem>
+						<MenuItem value={4}>4</MenuItem>
+						<MenuItem value={5}>5</MenuItem>
+						<MenuItem value={6}>6</MenuItem>
+						<MenuItem value={7}>7</MenuItem>
+						<MenuItem value={8}>8</MenuItem>
+						<MenuItem value={9}>9</MenuItem>
+						<MenuItem value={10}>10</MenuItem>
+					</Select>
+				</FormControl>
+				<br />
+				<br />
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={this.onSearchHandle}
+				>
+					Search
+				</Button>
+				{this.props.allSearchedFlights.length > 0 ? (
+					<TableContainer component={Paper}>
+						<Table className={classes.table} aria-label="simple table">
+							<TableHead>
+								<TableRow>
+									<TableCell align="right">Code</TableCell>
+									<TableCell align="right">Flight Number</TableCell>
+									<TableCell align="right">From</TableCell>
+									<TableCell align="right">To</TableCell>
+									<TableCell align="right">Seats</TableCell>
+
+									<TableCell align="right">Departure Time</TableCell>
+									<TableCell align="right">Arrival Time</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{this.props.allSearchedFlights.map((item) => (
+									<TableRow>
+										<TableCell align="right">{item.airline}</TableCell>
+										<TableCell align="right">{item.flightNumber}</TableCell>
+										<TableCell align="right">{item.from}</TableCell>
+										<TableCell align="right">{item.to}</TableCell>
+										<TableCell align="right">{item.seats}</TableCell>
+										<TableCell align="right">{item.departureTime}</TableCell>
+										<TableCell align="right">{item.arrivalTime}</TableCell>
+										<TableCell align="right">
+											{this.state.people > item.seats ? (
+												<Button
+													variant="contained"
+													color="primary"
+													disabled={!item.seats}
+												>
+													Not Available
+												</Button>
+											) : (
+												<>
+													<Button
+														variant="contained"
+														color="primary"
+														onClick={() => this.onBookingHandle(item)}
+													>
+														Book
+													</Button>
+
+													<Dialog
+														style={{ minWidth: "900px", display: "list-item" }}
+														open={this.state.open}
+														// onClose={this.onBookingHandle}
+														aria-labelledby="form-dialog-title"
+													>
+														<DialogTitle id="form-dialog-title">
+															Booking Details
+														</DialogTitle>
+
+														<DialogContent className={classes.dialog}>
+															Name: {this.props.bookedflight.airline}
+														</DialogContent>
+														<br />
+
+														<DialogContent>
+															Flight Number:{" "}
+															{this.props.bookedflight.flightNumber}
+														</DialogContent>
+														<br />
+
+														<DialogContent>
+															From: {this.props.bookedflight.from}
+														</DialogContent>
+														<br />
+
+														<DialogContent>
+															To: {this.props.bookedflight.to}
+														</DialogContent>
+														<br />
+
+														{/* <DialogContent>
+													{this.props.bookedflight.seats}
+												</DialogContent> */}
+
+														<DialogContent>
+															Arriaval Time:{" "}
+															{this.props.bookedflight.arrivalTime}
+														</DialogContent>
+														<br />
+
+														<DialogContent>
+															Departure Time:{" "}
+															{this.props.bookedflight.departureTime}
+														</DialogContent>
+														<DialogContent>
+															Total Cost: {newPrice}
+														</DialogContent>
+														<DialogActions>
+															<Button
+																onClick={this.onResetData}
+																color="primary"
+															>
+																Close
+															</Button>
+														</DialogActions>
+													</Dialog>
+												</>
+											)}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				) : null}
+			</div>
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	console.log(state);
+	return {
+		allCities: state.cities,
+		allSearchedFlights: state.searchedFlights,
+		allFlights: state.flights,
+		bookedflight: state.bookedFlight,
+	};
+};
+
+export default withStyles(useStyles)(
+	withRouter(connect(mapStateToProps)(withRouter(Booking)))
+);
+
+
+reducers.js
+import {
+	ADD_AIRLINE,
+	ADD_CITY,
+	ADD_FLIGHT,
+	SEARCH_FLIGHT,
+	BOOKED_FLIGHT,
+	UPDATE_FLIGHT,
+	RESET,
+} from "../constants/action-types";
+const initialState = {
+	airlines: [],
+	flights: [],
+	cities: [],
+	searchedFlights: [],
+	bookedFlight: "",
+	data: "",
+};
+
+const rootReducer = (state = initialState, action) => {
+	console.log(action);
+
+	switch (action.type) {
+		case ADD_AIRLINE: {
+			return {
+				...state,
+				airlines: [...state.airlines, action.payload],
+			};
+		}
+		case ADD_FLIGHT: {
+			return {
+				...state,
+				flights: [...state.flights, action.payload],
+			};
+		}
+		case ADD_CITY: {
+			return {
+				...state,
+				cities: [...state.cities, action.payload],
+			};
+		}
+		case SEARCH_FLIGHT: {
+			console.log(state);
+
+			const data = state.flights.filter(
+				(item) =>
+					item.from === action.payload.fromKeyword &&
+					item.to === action.payload.toKeyword
+			);
+			return {
+				...state,
+				searchedFlights: data,
+			};
+		}
+		case BOOKED_FLIGHT: {
+			console.log(action.payload);
+
+			return {
+				...state,
+				flights: state.flights.map((item) => {
+					if (item.flightNumber == action.payload.flightNumber) {
+						let newData = {
+							...action.payload,
+							seats:
+								Number(action.payload.seats) - Number(action.payload.people),
+						};
+						return newData;
+					}
+					return item;
+				}),
+
+				bookedFlight: action.payload,
+			};
+		}
+		case RESET: {
+			return {
+				...state,
+				searchedFlights: [...initialState.searchedFlights],
+			};
+		}
+
+		default:
+			return state;
+	}
+};
+export default rootReducer;
+

@@ -1,0 +1,156 @@
+package prog3;
+
+import java.util.Scanner;
+
+//import org.omg.CORBA.PUBLIC_MEMBER;
+
+import java.lang.*;
+
+public class menudrivenchallenge {
+	static Scanner scan = new Scanner(System.in);
+	public static void main(String args[]) {
+		while(true) {
+			System.out.println("1.print at 3rd and 8th position");
+			System.out.println("2.perform bubble sort");
+			System.out.println("3.search for particular word");
+			System.out.println("4.toggle the first and last character of each word");
+			System.out.println("5.2d array operations");
+			int choice;
+			System.out.println();
+			choice=scan.nextInt();
+			switch(choice) {
+			case 1:int arr[]=new int[10];
+				   printdigits(arr);
+				   break;
+			case 2:String arr1[]=new String[5];
+			       bubblesort(arr1);
+				   break;
+			case 3:
+				   break;
+			case 4:String a;
+				   a="mindtree";
+				   togglestring1(a);
+				   break;
+			case 5:int arr2[][]=new int[5][5];
+				   convert(arr2);
+				   break;
+			default:
+				System.out.println("invalid option");
+			}
+		
+	}
+
+}
+	public static int printdigits(int[] arr) {
+		System.out.println("enter the array");
+		for(int i=0;i<arr.length;i++) {
+			arr[i]=scan.nextInt();
+		}
+		for(int i=0;i<arr.length;i++) {
+			if( i==2) {
+			System.out.println(arr[i+1]);
+		}
+		
+			if(i==7) {
+				System.out.println(arr[i+1]);
+			}
+		}
+		return 1;
+	}
+	public static int bubblesort(String[]arr1 ) {
+		int n=arr1.length;
+		   System.out.println("enter the elements");
+		   for(int i=0;i<n;i++) {
+			   arr1[i]=scan.next();
+		   }
+		   int num=arr1.length;
+		   String temp;
+		   for(int i=0;i<num;i++) {
+			   for(int j=0;j<num-i-1;j++) {
+				   if(arr1[j].charAt(0)>arr1[j+1].charAt(0)) {
+					   temp=arr1[j];
+					   arr1[j]=arr1[j+1];
+					   arr1[j+1]=temp;
+				   }
+			   }
+		   }
+		   for(int k=0;k<num;k++) {
+		   System.out.println(arr1[k]);
+		   }
+		   return 1;
+	}
+	public static  int togglestring1(String a) {
+		char first=(char) (a.charAt(0)-32);
+		char last=(char) (a.charAt(a.length()-1)-32);
+		for(int i=1;i<a.length()-2;i++)
+		System.out.println(first+a.charAt(i)+last);
+		return 1;
+		
+	}
+	public static void convert(int[][] arr2) {
+		int result1[]=new int[arr2.length];
+		for(int i=0;i<arr2.length;i++) {
+			for(int j=0;j<arr2.length;j++) {
+               
+        	 result1[i]=arr2[i][j];
+			}
+		}
+        	 System.out.println(result1);
+        	 int result2[]=new int[arr2.length];
+        	  result2=bsort(result1);
+			
+		
+	
+	
+}
+	public static void  bsort(int result1[]) {
+		int n=result1.length;
+		int temp;
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n-i-1;j++) {
+				if(result1[j]>result1[j+1]) {
+					temp=result1[j];
+					result1[j]=result1[j+1];
+					result1[j+1]=temp;
+				}
+			}
+		}
+		insertionsort(result1);
+		
+	}
+		
+	public static void insertionsort(int[]result1){
+		int n=result1.length;
+		for(int i=0;i<n;i++) {
+			int key=result1[i];
+			int j=i-1;
+			while((j>-1) &&(result1[j]>key) ) {
+				result1[j+1]=result1[j];
+				j--;
+			}
+			result1[j+1]=key;
+		}
+		Bsearch(result1);
+	}
+	public static int Bsearch(int[] result1) {
+	
+		int first=0;
+		int last=result1.length;
+		int key;
+		System.out.println("enter the element to search");
+		key=scan.nextInt();
+		int mid=(first+last)/2;
+		while(first<=last) {
+			if(result1[mid]<key) {
+				first=mid+1;
+			}else if(result1[mid]==key){
+				return mid;
+			}else
+				last=mid-1;
+			mid=(last+first)/2;
+		}
+		System.out.println(mid);
+		return mid;
+	}
+
+}
